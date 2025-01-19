@@ -1,25 +1,40 @@
 import GuestHeader from '../components/GuestHeader.jsx';
 import Footer from '../components/Footer.jsx';
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useStoreContext } from '../context/index.jsx';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase';
 
 function LoginView() {
     const navigate = useNavigate()
     // const user = useRef('')
+    const email = useRef('')
     const { setUser } = useStoreContext()
-    const [username, setUsername] = useState("")
+    // const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const validPassword="password"; {/*the password of an individual who takes their cybersecurity seriously*/}
+    // const validPassword="password"; {/*the password of an individual who takes their cybersecurity seriously*/}
 
-    function login(e) {
+    // function login(e) {
+    //     e.preventDefault();
+    //     if (password === validPassword) {
+    //         console.log('User before setting:', username);
+    //         setUser(username);
+    //         console.log('User after setting:', username);
+    //         console.log('Navigating to movies/all');
+    //         navigate('/movies/all');
+    //     }
+    // }
+
+    async function loginByEmail(e) {
         e.preventDefault();
-        if (password === validPassword) {
-            console.log('User before setting:', username);
-            setUser(username);
-            console.log('User after setting:', username);
-            console.log('Navigating to movies/all');
+        try {
+            const user = (await signInWithEmailAndPassword(auth, email.current.value, password)).user;
             navigate('/movies/all');
+            setUser(user);
+        } catch (error) {
+            console.log(error);
+            alert("Error signing in!");
         }
     }
 
@@ -37,16 +52,18 @@ function LoginView() {
                                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"></path>
                                         </svg>
                                     </div>
-                                    <form className="text-center" method="post" onSubmit={(e) => login(e)}>
+                                    <form className="text-center" method="post" onSubmit={(e) => loginByEmail(e)}>
                                         <div className="mb-3">
                                             <input
                                                 className="form-control"
-                                                type="text"
+                                                type="email"
                                                 name="email"
                                                 placeholder="Email"
-                                                onChange={(e) => setUsername(e.target.value)}
-                                                value={username}
-                                                required/>
+                                                // onChange={(e) => setUsername(e.target.value)}
+                                                // value={username}
+                                                ref={email}
+                                                required
+                                            />
                                         </div>
                                         <div className="mb-3">
                                             <input

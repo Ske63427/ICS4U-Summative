@@ -15,7 +15,6 @@ function AllMoviesView(){
 
     return(
         <div>
-            <h1 style={{textAlign: "center"}}>Welcome, {user}</h1>
             <div className="row">
                 <div className="col">
                     <div className="table-responsive">
