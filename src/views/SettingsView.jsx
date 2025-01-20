@@ -1,64 +1,55 @@
-import Header from '../components/Header.jsx'
-import Footer from '../components/Footer.jsx'
-import TwoBySixGenreTable from "../components/TwoBySixGenreTable.jsx"
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { useStoreContext } from "../Context"
-import { getAuth, signOut, updatePassword } from 'firebase/auth'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
-import { auth, firestore } from "../firebase"
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
+import TwoBySixGenreTable from "../components/TwoBySixGenreTable.jsx";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useStoreContext } from "../Context";
+import { updatePassword, signOut } from 'firebase/auth';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { auth, firestore } from "../firebase";
 
 function SettingsView() {
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const [chosenGenres, setChosenGenres] = useState([])
-    const navigate = useNavigate()
-    const { user, setUser, setSelected } = useStoreContext()
-
-    function logout() {
-        setUser(null)
-        setSelected([])
-        setChosenGenres([])
-        localStorage.removeItem('genrePreference')
-        signOut(auth)
-        navigate("/")
-    }
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [chosenGenres, setChosenGenres] = useState([]);
+    const navigate = useNavigate();
+    const { user, setUser, setSelected } = useStoreContext();
 
     const handleGenreSelection = (selectedGenres) => {
-        setChosenGenres(selectedGenres)
+        setChosenGenres(selectedGenres);
     };
 
     useEffect(() => {
         async function fetchPreferredGenres() {
             if (user) {
-                const userDoc = await getDoc(doc(firestore, 'users', user.uid))
+                const userDoc = await getDoc(doc(firestore, 'users', user.uid));
                 if (userDoc.exists()) {
-                    const userData = userDoc.data()
-                    setFirstName(userData.firstName || '')
-                    setLastName(userData.lastName || '')
-                    setChosenGenres(userData.genreList || [])
-                    setSelected(userData.genreList || [])
+                    const userData = userDoc.data();
+                    setFirstName(userData.firstName || '');
+                    setLastName(userData.lastName || '');
+                    setChosenGenres(userData.genreList || []);
+                    setSelected(userData.genreList || []);
                 }
             }
         }
-        fetchPreferredGenres()
-    }, [user, setSelected])
+        fetchPreferredGenres();
+    }, [user, setSelected]);
 
     const handleSave = async () => {
         if (user) {
-            const userDocRef = doc(firestore, 'users', user.uid)
-            const updatedData = {}
-            if (firstName) updatedData.firstName = firstName
-            if (lastName) updatedData.lastName = lastName
-            if (chosenGenres.length > 0) updatedData.genreList = chosenGenres
-            await updateDoc(userDocRef, updatedData)
+            const userDocRef = doc(firestore, 'users', user.uid);
+            const updatedData = {};
+            if (firstName) updatedData.firstName = firstName;
+            if (lastName) updatedData.lastName = lastName;
+            if (chosenGenres.length > 0) updatedData.genreList = chosenGenres;
+            await updateDoc(userDocRef, updatedData);
             if (newPassword) {
                 try {
-                    await updatePassword(user, newPassword)
+                    await updatePassword(user, newPassword);
                 } catch (error) {
-                    alert("Error updating password: " + error.message)
-                    return
+                    alert("Error updating password: " + error.message);
+                    return;
                 }
             }
             alert("Changes saved!");
@@ -67,7 +58,7 @@ function SettingsView() {
 
     return (
         <div>
-            <Header/>
+            <Header />
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
@@ -114,8 +105,6 @@ function SettingsView() {
                         <div className="row" style={{ margin: "0px 0px 16px" }}>
                             <div className="col">
                                 <button className="btn btn-primary" onClick={handleSave}>Save Changes</button>
-                                <br/><br/>
-                                <button className="btn btn-primary" onClick={logout}>Log Out</button>
                             </div>
                         </div>
                     </div>

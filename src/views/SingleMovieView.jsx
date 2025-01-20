@@ -40,21 +40,16 @@ function SingleMovieView() {
             return;
         }
 
-        // Update the cart
         setCart((prevCart) => {
             const newCart = new Map(prevCart).set(movie.id, {
                 title: movie.original_title,
                 url: movie.poster_path,
             });
 
-            // Save cart to localStorage
             localStorage.setItem("cart", JSON.stringify(Array.from(newCart.entries())));
-
-            // Update purchasedMovies in localStorage
             localPurchasedMovies.push(movie.id);
             localStorage.setItem('purchasedMovies', JSON.stringify(localPurchasedMovies));
 
-            // Update Firestore with the new purchase
             if (user) {
                 const userDocRef = doc(firestore, 'users', user.uid);
                 updateDoc(userDocRef, {

@@ -12,7 +12,6 @@ function AllMoviesView(){
         [28, 10752, 878, 14, 80, 53, 27, 35, 16, 36, 37, 9648]
     ]
     const { user, selected } = useStoreContext()
-
     console.log(selected)
 
     return(

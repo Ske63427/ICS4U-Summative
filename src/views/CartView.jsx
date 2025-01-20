@@ -8,7 +8,6 @@ function CartView() {
     const { cart, setCart, user } = useStoreContext();
 
     useEffect(() => {
-        // Load cart from localStorage
         const storedCart = localStorage.getItem('cart');
         if (storedCart) {
             const parsedCart = new Map(JSON.parse(storedCart));
@@ -32,7 +31,7 @@ function CartView() {
                 alert("Error updating purchase history: " + error.message);
             }
         } else {
-            alert("You need to be logged in to checkout!");
+            alert("You need to be logged in to checkout");
         }
     };
 

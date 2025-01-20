@@ -1,38 +1,43 @@
-import GuestHeader from '../components/GuestHeader.jsx'
-import Footer from '../components/Footer.jsx'
-import { Link, useNavigate } from "react-router-dom"
-import { useState, useRef } from "react"
-import { useStoreContext } from '../context/index.jsx'
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import { auth } from '../firebase'
+import GuestHeader from '../components/GuestHeader.jsx';
+import Footer from '../components/Footer.jsx';
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useStoreContext } from '../context/index.jsx';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase';
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 function LoginView() {
-    const navigate = useNavigate()
-    const email = useRef('')
-    const { setUser } = useStoreContext()
-    const [password, setPassword] = useState("")
-
+    const navigate = useNavigate();
+    const email = useRef('');
+    const { setUser } = useStoreContext();
+    const [password, setPassword] = useState("");
+    const firestore = getFirestore();
 
     async function loginByEmail(e) {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const user = (await signInWithEmailAndPassword(auth, email.current.value, password)).user
-            navigate('/movies/all')
-            setUser(user)
+            const user = (await signInWithEmailAndPassword(auth, email.current.value, password)).user;
+            navigate('/movies/all');
+            setUser(user);
         } catch (error) {
-            console.log(error)
-            alert("Error signing in!")
+            console.log(error);
+            alert("Error signing in!");
         }
     }
 
     async function loginByGoogle() {
         try {
-            const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user
-            navigate('/movies/all')
-            setUser(user)
+            const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+            // Save the user signInMethod to Firestore
+            await setDoc(doc(firestore, "users", user.uid), {
+                signInMethod: "google"
+            }, { merge: true });
+            navigate('/movies/all');
+            setUser(user);
         } catch (error) {
-            alert("Error signing in!")
-            console.log(error.message)
+            alert("Error signing in!");
+            console.log(error.message);
         }
     }
 
@@ -75,7 +80,8 @@ function LoginView() {
                                             <button className="btn btn-primary d-block w-100" type="submit">Login</button><br/>
                                             <button
                                                 className="btn btn-primary d-block w-100"
-                                                onClick={() => loginByGoogle()}
+                                                type="button"
+                                                onClick={loginByGoogle}
                                                 style={{marginBottom: "10px"}}
                                             ><img
                                                 src={"https://pluspng.com/img-png/google-logo-png-open-2000.png"}
@@ -95,7 +101,7 @@ function LoginView() {
             </section>
             <Footer/>
         </div>
-    )
+    );
 }
 
 export default LoginView;
