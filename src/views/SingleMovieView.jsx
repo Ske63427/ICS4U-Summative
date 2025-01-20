@@ -1,21 +1,21 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useStoreContext } from "../context";
+import axios from "axios"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { useStoreContext } from "../context"
 
 function SingleMovieView() {
-    const [movieData, setMovieData] = useState([]);
-    const { cart, setCart } = useStoreContext();
-    const params = useParams();
+    const [movieData, setMovieData] = useState([])
+    const { cart, setCart } = useStoreContext()
+    const params = useParams()
 
     useEffect(() => {
         (async function getMovies() {
             const response = await axios.get(
                 `https://api.themoviedb.org/3/movie/${params.id}?api_key=${import.meta.env.VITE_TMDB_KEY}&append_to_response=videos`
             );
-            setMovieData(response.data);
+            setMovieData(response.data)
         })();
-    }, [params.id]);
+    }, [params.id])
 
     // console.log(movieData);
 

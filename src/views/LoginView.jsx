@@ -1,10 +1,10 @@
-import GuestHeader from '../components/GuestHeader.jsx';
-import Footer from '../components/Footer.jsx';
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
-import { useStoreContext } from '../context/index.jsx';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../firebase';
+import GuestHeader from '../components/GuestHeader.jsx'
+import Footer from '../components/Footer.jsx'
+import { Link, useNavigate } from "react-router-dom"
+import { useState, useRef } from "react"
+import { useStoreContext } from '../context/index.jsx'
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { auth } from '../firebase'
 
 function LoginView() {
     const navigate = useNavigate()
@@ -14,24 +14,24 @@ function LoginView() {
 
 
     async function loginByEmail(e) {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            const user = (await signInWithEmailAndPassword(auth, email.current.value, password)).user;
-            navigate('/movies/all');
-            setUser(user);
+            const user = (await signInWithEmailAndPassword(auth, email.current.value, password)).user
+            navigate('/movies/all')
+            setUser(user)
         } catch (error) {
-            console.log(error);
-            alert("Error signing in!");
+            console.log(error)
+            alert("Error signing in!")
         }
     }
 
     async function loginByGoogle() {
         try {
-            const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
-            navigate('/movies/all');
-            setUser(user);
+            const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user
+            navigate('/movies/all')
+            setUser(user)
         } catch (error) {
-            alert("Error signing in!");
+            alert("Error signing in!")
             console.log(error.message)
         }
     }

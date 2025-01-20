@@ -1,17 +1,17 @@
-import PosterGrid from '../components/PosterGrid.jsx';
-import Footer from '../components/Footer.jsx';
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import { useStoreContext } from "../context/index.jsx";
+import PosterGrid from '../components/PosterGrid.jsx'
+import Footer from '../components/Footer.jsx'
+import { useState } from "react"
+import { Outlet } from "react-router-dom"
+import { useStoreContext } from "../context/index.jsx"
 
 function AllMoviesView(){
-    const [genre, setGenre] = useState(28);
-    const [selectedButton, setSelectedButton] = useState(null);
+    const [genre, setGenre] = useState(28)
+    const [selectedButton, setSelectedButton] = useState(null)
     const genres = [ //Name: [0][0-11], Genre: [1][0-11]
         ["Action", "War", "Sci-Fi", "Fantasy", "Crime", "Thriller", "Horror", "Comedy", "Animation", "History", "Western", "Mystery"],
         [28, 10752, 878, 14, 80, 53, 27, 35, 16, 36, 37, 9648]
     ]
-    const { user, selected } = useStoreContext();
+    const { user, selected } = useStoreContext()
 
     console.log(selected)
 

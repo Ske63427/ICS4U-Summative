@@ -1,10 +1,9 @@
-import { Outlet } from "react-router-dom";//, useNavigate
+import { Outlet } from "react-router-dom";
 import { useStoreContext } from "../context/index.jsx";
 import Header from "../components/Header.jsx";
 
 function DefaultMovieView() {
-    // const navigate = useNavigate();
-    const { user } = useStoreContext();//, setUser
+    const { user } = useStoreContext();
 
     return(
         <div>

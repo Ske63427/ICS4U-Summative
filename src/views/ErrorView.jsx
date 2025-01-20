@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 function ErrorView() {
     return(
         <div>
             <h1>ERROR, PAGE DOES NOT EXIST</h1>
-            <a>Return to Home</a>
+            <Link to={'/'}>Return to Home</Link>
         </div>
     )
 }
