@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleA
 import { auth } from "../firebase";
 import { useStoreContext } from "../context";
 import { useNavigate } from "react-router-dom";
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 
 function RegisterView() {
     const [firstName, setFirstName] = useState('');
@@ -13,26 +14,74 @@ function RegisterView() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [chosenGenreList, setChosenGenreList] = useState([]);
     const { setUser } = useStoreContext();
     const navigate = useNavigate();
 
-    const registerByEmail = async (event) => {
-        event.preventDefault();
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+    async function registerByEmail() {
+
+        if (password != confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+        if (chosenGenreList.length < 10) {
+            alert('Please choose at least ten genre');
             return;
         }
 
         try {
-            const user = (await createUserWithEmailAndPassword(auth, email, password)).user;
-            await updateProfile(user, { displayName: `${firstName} ${lastName}` });
+            const user = (await createUserWithEmailAndPassword(auth, email, password)).user
+            await updateProfile(user, { displayName: `${firstName} ${lastName}` })
+            setCurrentUser(auth.currentUser);
+
+            await setDoc(doc(firestore, 'users', user.uid), {
+                email: email,
+                firstName: firstName,
+                lastName: lastName,
+                genreList: chosenGenreList,
+                signInMethod: 'email',
+                previousPerchaseHistory: []
+            })
+
+            localStorage.setItem('genrePreference', JSON.stringify(chosenGenreList));
+            setUserGenreList(chosenGenreList);
+            navigate('/movies');
+        } catch (error) {
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    alert('Email already in use');
+                    break;
+                case 'auth/invalid-email':
+                    alert('Invalid email');
+                    break;
+                case 'auth/weak-password':
+                    alert('Password is too weak, 6+ characters required');
+                    break;
+                case "auth/too-many-requests":
+                    alert('Too many attempts. Please try again later.');
+                    break;
+                case "auth/network-request-failed":
+                    alert('Network error. Please check your connection.');
+                    break;
+                default:
+                    alert('An error occurred');
+                    console.error(error.code);
+                    console.error(error.message);
+                    break;
+            }
+        }
+    }
+
+    const registerByGoogle = async () => {
+        try {
+            const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
             setUser(user);
             navigate('/movies/all');
-        } catch (error) {
+        } catch {
             alert("Error creating user with email and password!");
-            console.log(error)
         }
-    };
+    }
+
     return (
         <div>
             <GuestHeader/>
@@ -106,8 +155,15 @@ function RegisterView() {
                                         <div className="mb-3">
                                             <button className="btn btn-primary d-block w-100" type="submit">Register</button>
                                         </div>
-                                        <p className="text-muted">Forgot your password?</p>
-                                        <p className="text-muted">No Account?</p>
+                                        <button
+                                            className="btn btn-primary d-block w-100"
+                                            onClick={() => registerByGoogle()}
+                                            style={{marginBottom: "10px"}}
+                                        ><img
+                                            src={"https://pluspng.com/img-png/google-logo-png-open-2000.png"}
+                                            width={"25px"}
+                                            style={{marginRight: "5px", marginLeft: "-5px", marginTop: "-2px"}}
+                                        />Register with Google</button>
                                     </form>
                                 </div>
                             </div>

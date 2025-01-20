@@ -14,7 +14,7 @@ function Header() {
                 <div className="collapse navbar-collapse flex-grow-0 order-md-first" id="navcol-6">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link to={`/movies`} className="nav-link active">Movies</Link>
+                            <Link to={`/movies/all`} className="nav-link active">Movies</Link>
                         </li>
                         <li className="nav-item">
                             <Link to={`/cart`} className="nav-link" href="#">Cart</Link>

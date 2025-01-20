@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import {useNavigate, useParams} from "react-router-dom"
 import axios from "axios";
+import {useStoreContext} from "../context/index.jsx";
 
 function PosterGrid({genre}) {
     const navigate = useNavigate();
     const [movies, setMovies] = useState([])
+    const [movieData, setMovieData] = useState({});
+    const { cart, setCart } = useStoreContext();
+    const params = useParams();
 
     useEffect(() => {
         (async function getMovies() {
@@ -20,6 +24,7 @@ function PosterGrid({genre}) {
     }
 
     console.log(movies)
+    console.log(movieData?.original_title);
 
     return (
         <div>
@@ -47,7 +52,17 @@ function PosterGrid({genre}) {
                                                                 }}
                                                             />
                                                             <div className="card-body" style={{display: "flex", justifyContent: "center"}}>
-                                                                <button className="btn btn-primary" type="button" style={{textAlign: "center"}}>Buy Now</button>
+                                                                <button
+                                                                    className="btn btn-primary"
+                                                                    type="button"
+                                                                    style={{textAlign: "center"}}
+                                                                    onClick={() => setCart((prevCart) => prevCart.set(
+                                                                        movie.id, {
+                                                                            title: movie.original_title,
+                                                                            url: movie.poster_path
+                                                                        }
+                                                                    ))}
+                                                                >Buy Now</button>
                                                             </div>
                                                         </div>
                                                     </td>

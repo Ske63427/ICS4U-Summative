@@ -34,15 +34,15 @@ function Feature(){
             <div className="row">
                 {movies.length > 19 && (
                     <>
-                        <div className="col">
-                            <img style={{width: "275px", height: "400px", marginLeft: "150px"}}
+                        <div className="col" style={{display: "flex", justifyContent: "center"}}>
+                            <img style={{width: "275px", height: "400px"}}
                                  src={`https://image.tmdb.org/t/p/w500${movies[0].poster_path}`}/>
                         </div>
-                        <div className="col">
-                            <img style={{width: "275px", height: "400px", marginLeft: "100px"}}
+                        <div className="col" style={{display: "flex", justifyContent: "center"}}>
+                            <img style={{width: "275px", height: "400px"}}
                                  src={`https://image.tmdb.org/t/p/w500${movies[1].poster_path}`}/>
                         </div>
-                        <div className="col">
+                        <div className="col" style={{display: "flex", justifyContent: "center"}}>
                             <img style={{width: "275px", height: "400px"}}
                                  src={`https://image.tmdb.org/t/p/w500${movies[2].poster_path}`}/>
                         </div>

@@ -8,23 +8,10 @@ import { auth } from '../firebase';
 
 function LoginView() {
     const navigate = useNavigate()
-    // const user = useRef('')
     const email = useRef('')
     const { setUser } = useStoreContext()
-    // const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    // const validPassword="password"; {/*the password of an individual who takes their cybersecurity seriously*/}
 
-    // function login(e) {
-    //     e.preventDefault();
-    //     if (password === validPassword) {
-    //         console.log('User before setting:', username);
-    //         setUser(username);
-    //         console.log('User after setting:', username);
-    //         console.log('Navigating to movies/all');
-    //         navigate('/movies/all');
-    //     }
-    // }
 
     async function loginByEmail(e) {
         e.preventDefault();
@@ -35,6 +22,17 @@ function LoginView() {
         } catch (error) {
             console.log(error);
             alert("Error signing in!");
+        }
+    }
+
+    async function loginByGoogle() {
+        try {
+            const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+            navigate('/movies/all');
+            setUser(user);
+        } catch (error) {
+            alert("Error signing in!");
+            console.log(error.message)
         }
     }
 
@@ -59,8 +57,6 @@ function LoginView() {
                                                 type="email"
                                                 name="email"
                                                 placeholder="Email"
-                                                // onChange={(e) => setUsername(e.target.value)}
-                                                // value={username}
                                                 ref={email}
                                                 required
                                             />
@@ -76,7 +72,17 @@ function LoginView() {
                                                 required/>
                                         </div>
                                         <div className="mb-3">
-                                            <button className="btn btn-primary d-block w-100" type="submit">Login</button>
+                                            <button className="btn btn-primary d-block w-100" type="submit">Login</button><br/>
+                                            <button
+                                                className="btn btn-primary d-block w-100"
+                                                onClick={() => loginByGoogle()}
+                                                style={{marginBottom: "10px"}}
+                                            ><img
+                                                src={"https://pluspng.com/img-png/google-logo-png-open-2000.png"}
+                                                width={"25px"}
+                                                style={{marginRight: "5px", marginLeft: "-5px", marginTop: "-2px"}}
+                                            />Log in with Google
+                                            </button>
                                         </div>
                                         <p className="text-muted">Forgot your password?</p>
                                         <Link to={`/register`}><p className="text-muted">No Account?</p></Link>
