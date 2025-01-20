@@ -46,7 +46,7 @@ function CartView() {
 
     return (
         <div>
-            <Header />
+            <Header activePath="/cart"/>
             {cart.size > 0 ? (
                 <>
                     <button

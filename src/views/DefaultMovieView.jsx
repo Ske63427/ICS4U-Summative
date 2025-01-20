@@ -7,7 +7,7 @@ function DefaultMovieView() {
 
     return(
         <div>
-            <Header/>
+            <Header activePath="/movies/all"/>
             <h1 style={{textAlign: "center"}}>Welcome, {user.displayName}</h1>
             <Outlet/>
         </div>

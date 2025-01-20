@@ -14,19 +14,19 @@ function Hero(){
                                 <ul className="list-unstyled">
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Lectus ut nibh quam, felis porttitor.</span>
+                                        <span>2 Devices</span>
                                     </li>
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Ante nec venenatis etiam lacinia.</span>
+                                        <span>1080p</span>
                                     </li>
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Porta suscipit netus ad ac.</span>
+                                        <span>5.1 Audio</span>
                                     </li>
                                 </ul>
                             </div>
-                            <a className="btn btn-primary d-block w-100" role="button" href="#">Button</a>
+                            <a className="btn btn-primary d-block w-100" role="button" href="#">Select Plan</a>
                         </div>
                     </div>
                 </div>
@@ -41,20 +41,20 @@ function Hero(){
                                 <ul className="list-unstyled">
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Lectus ut nibh quam, felis porttitor.</span>
+                                        <span>3 Devices</span>
                                     </li>
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Ante nec venenatis etiam lacinia.</span>
+                                        <span>2160p</span>
                                     </li>
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Porta suscipit netus ad ac.</span>
+                                        <span>5.1 Audio</span>
                                     </li>
                                     <li className="d-flex mb-2"></li>
                                 </ul>
                             </div>
-                            <a className="btn btn-primary d-block w-100" role="button" href="#">Button</a>
+                            <a className="btn btn-primary d-block w-100" role="button" href="#">Select Plan</a>
                         </div>
                     </div>
                 </div>
@@ -68,22 +68,22 @@ function Hero(){
                                 <ul className="list-unstyled">
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Lectus ut nibh quam, felis porttitor.</span>
+                                        <span>4 Devices</span>
                                     </li>
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Ante nec venenatis etiam lacinia.</span>
+                                        <span>4k Quality Video</span>
                                     </li>
                                     <li className="d-flex mb-2">
                                         <span className="bs-icon-xs bs-icon-rounded bs-icon-primary-light bs-icon me-2"></span>
-                                        <span>Porta suscipit netus ad ac.</span>
+                                        <span>Dolby Atmos Audio</span>
                                     </li>
                                     <li className="d-flex mb-2"></li>
                                     <li className="d-flex mb-2"></li>
                                     <li className="d-flex mb-2"></li>
                                 </ul>
                             </div>
-                            <a className="btn btn-primary d-block w-100" role="button" href="#">Button</a>
+                            <a className="btn btn-primary d-block w-100" role="button" href="#">Select Plan</a>
                         </div>
                     </div>
                 </div>

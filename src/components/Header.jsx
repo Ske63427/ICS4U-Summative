@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
-function Header() {
+function Header({ activePath }) {
     const { user, setUser, setSelected } = useStoreContext();
     const firestore = getFirestore();
     const [signInMethod, setSignInMethod] = useState(null);
@@ -54,10 +54,10 @@ function Header() {
                 <div className="collapse navbar-collapse flex-grow-0 order-md-first" id="navcol-6">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link to={`/movies/all`} className="nav-link active">Movies</Link>
+                            <Link to={`/movies/all`} className={`nav-link ${activePath === '/movies/all' ? 'active' : ''}`}>Movies</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={`/cart`} className="nav-link">Cart</Link>
+                            <Link to={`/cart`} className={`nav-link ${activePath === '/cart' ? 'active' : ''}`}>Cart</Link>
                         </li>
                     </ul>
                     <div className="d-md-none my-2">
