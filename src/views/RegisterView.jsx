@@ -120,7 +120,7 @@ function RegisterView() {
                                         <input className="form-control mb-3" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} required/>
                                         <input className="form-control mb-3" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} required/>
                                         <input className="form-control mb-3" type="password" placeholder="Re-Enter Password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} required/>
-                                        <button className="btn btn-primary d-block w-100" type="submit">Register</button>
+                                        <button className="btn btn-primary d-block w-100" type="submit" style={{marginBottom: "10px"}}>Register</button>
                                         <button className="btn btn-primary d-block w-100" type="button" onClick={registerByGoogle}>
                                             <img
                                                 src={"https://pluspng.com/img-png/google-logo-png-open-2000.png"}

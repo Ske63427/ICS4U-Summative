@@ -13,7 +13,7 @@ function CartView() {
 
             try {
                 await updateDoc(userDocRef, {
-                    purchaseHistory: arrayUnion({ movies: movieIds, date: new Date() })
+                    previousPurchaseHistory: arrayUnion({ movies: movieIds, date: new Date() })
                 })
                 setCart(new Map())
                 alert("Thank you for buying!")

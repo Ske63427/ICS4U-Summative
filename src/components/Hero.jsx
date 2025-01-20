@@ -1,5 +1,3 @@
-// import Background from "../src/assets/heroImage.jpg"
-
 function Hero(){
     return (
         <section>
@@ -11,7 +9,7 @@ function Hero(){
                         <div className="card-body d-flex flex-column justify-content-between p-4">
                             <div>
                                 <h6 className="text-uppercase text-muted">Budget</h6>
-                                <h4 className="display-6 fw-bold">$15</h4>
+                                <h4 className="display-6 fw-bold">$6.99/month</h4>
                                 <hr/>
                                 <ul className="list-unstyled">
                                     <li className="d-flex mb-2">
@@ -38,7 +36,7 @@ function Hero(){
                             <span className="badge bg-primary position-absolute top-0 end-0 rounded-bottom-left text-uppercase">Most Popular</span>
                             <div>
                                 <h6 className="text-uppercase text-muted">Standard</h6>
-                                <h4 className="display-6 fw-bold">$38</h4>
+                                <h4 className="display-6 fw-bold">$12.99/month</h4>
                                 <hr/>
                                 <ul className="list-unstyled">
                                     <li className="d-flex mb-2">
@@ -65,7 +63,7 @@ function Hero(){
                         <div className="card-body d-flex flex-column justify-content-between p-4">
                             <div>
                                 <h6 className="text-uppercase text-muted">Premium</h6>
-                                <h4 className="display-6 fw-bold">$70</h4>
+                                <h4 className="display-6 fw-bold">$18.99/month</h4>
                                 <hr/>
                                 <ul className="list-unstyled">
                                     <li className="d-flex mb-2">
