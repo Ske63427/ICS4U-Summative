@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useStoreContext } from "../context/index.jsx";
 
-function TwoBySixGenreTable({ selectedGenres }) {
+function TwoBySixGenreTable({ selectedGenres, loadFromStorage = false }) {
     const { selected, setSelected } = useStoreContext();
 
     const genres = [
@@ -28,9 +28,16 @@ function TwoBySixGenreTable({ selectedGenres }) {
     };
 
     useEffect(() => {
-        selectedGenres(selected);  // Pass updated genres to parent component
-        // console.log("Selected genres in child:", selected);
-    }, [selected]);
+        if (loadFromStorage) {
+            const savedGenres = JSON.parse(localStorage.getItem('genrePreference')) || [];
+            setSelected(savedGenres);
+            selectedGenres(savedGenres);
+        }
+    }, [loadFromStorage, setSelected, selectedGenres]);
+
+    useEffect(() => {
+        selectedGenres(selected);
+    }, [selected, selectedGenres]);
 
     return (
         <table className="table">

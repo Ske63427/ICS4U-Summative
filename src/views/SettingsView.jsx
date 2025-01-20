@@ -11,14 +11,37 @@ import { get } from 'immutable';
 import { use } from 'react';
 
 function SettingsView() {
+    const [chosenGenres, setChosenGenres] = useState([]);
     const navigate = useNavigate();
-    const { user, setUser } = useStoreContext();
+    const { user, setUser, setSelected } = useStoreContext();
 
     function logout() {
         setUser(null);
+        setSelected([]); // Clear the selected genres in the context state
+        setChosenGenres([]); // Clear the local state
+        localStorage.removeItem('genrePreference');
         signOut(auth);
         navigate("/");
     }
+
+    const handleGenreSelection = (selectedGenres) => {
+        setChosenGenres(selectedGenres);
+        // console.log("Selected genres:", selectedGenres);
+    };
+
+    useEffect(() => {
+        async function fetchPreferredGenres() {
+            if (user) {
+                const userDoc = await getDoc(doc(firestore, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    setChosenGenres(userData.genreList || []);
+                    setSelected(userData.genreList || []); // Initialize context state
+                }
+            }
+        }
+        fetchPreferredGenres();
+    }, [user, setSelected]);
 
     console.log(user)
 
@@ -57,7 +80,7 @@ function SettingsView() {
                     </div>
                     <div className="col-md-6" style={{marginTop: "20px"}}>
                         <div className="table-responsive" style={{width: "500px", marginLeft: "0px", marginTop: "0px"}}>
-                            <TwoBySixGenreTable/>
+                            <TwoBySixGenreTable selectedGenres={handleGenreSelection}/>
                         </div>
                     </div>
                 </div>

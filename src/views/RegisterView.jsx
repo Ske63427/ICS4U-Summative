@@ -25,11 +25,8 @@ function RegisterView() {
         // console.log("Selected genres:", selectedGenres);
     };
 
-    useEffect(() => {
-        // console.log("Updated chosenGenres:", chosenGenres);
-    }, [chosenGenres]);
-
-    async function registerByEmail() {
+    async function registerByEmail(e) {
+        e.preventDefault();
         if (password !== confirmPassword) {
             alert('Passwords do not match');
             return;
@@ -95,32 +92,20 @@ function RegisterView() {
                         <div className="col-md-6 col-xl-4">
                             <div className="card mb-5">
                                 <div className="card-body d-flex flex-column align-items-center">
-                                    <form className="text-center" onSubmit={(e) => {
-                                        e.preventDefault();
-                                        registerByEmail();
-                                    }}>
-                                        <input className="form-control mb-3" type="text" placeholder="First Name"
-                                               onChange={(e) => setFirstName(e.target.value)} value={firstName}
-                                               required/>
-                                        <input className="form-control mb-3" type="text" placeholder="Last Name"
-                                               onChange={(e) => setLastName(e.target.value)} value={lastName} required/>
-                                        <input className="form-control mb-3" type="email" placeholder="Email"
-                                               onChange={(e) => setEmail(e.target.value)} value={email} required/>
-                                        <input className="form-control mb-3" type="password" placeholder="Password"
-                                               onChange={(e) => setPassword(e.target.value)} value={password} required/>
-                                        <input className="form-control mb-3" type="password"
-                                               placeholder="Re-Enter Password"
-                                               onChange={(e) => setConfirmPassword(e.target.value)}
-                                               value={confirmPassword} required/>
-                                        <button className="btn btn-primary d-block w-100" type="submit">Register
-                                        </button>
+                                    <form className="text-center" onSubmit={(e) => registerByEmail(e) }>
+                                        <input className="form-control mb-3" type="text" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} value={firstName} required/>
+                                        <input className="form-control mb-3" type="text" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} value={lastName} required/>
+                                        <input className="form-control mb-3" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} required/>
+                                        <input className="form-control mb-3" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} required/>
+                                        <input className="form-control mb-3" type="password" placeholder="Re-Enter Password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} required/>
+                                        <button className="btn btn-primary d-block w-100" type="submit">Register</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div className="col" style={{display: "flex", justifyContent: "center"}}>
                             <div className="table-responsive" style={{marginTop: "70px", width: "500px"}}>
-                                <TwoBySixGenreTable selectedGenres={handleGenreSelection}/>
+                                <TwoBySixGenreTable selectedGenres={handleGenreSelection} loadFromStorage={false}/>
                             </div>
                         </div>
                     </div>
