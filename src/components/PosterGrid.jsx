@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; //, useParams
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useStoreContext } from "../context/index.jsx";
 import { auth } from "../firebase";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
 function PosterGrid({ genre }) {
     const navigate = useNavigate();
     const [movies, setMovies] = useState([]);
     const [movieData, setMovieData] = useState({});
-    const { setCart } = useStoreContext(); //cart,
-    // const params = useParams();
+    const { setCart } = useStoreContext();
     const firestore = getFirestore();
 
     useEffect(() => {
@@ -31,18 +30,41 @@ function PosterGrid({ genre }) {
             const purchasedMovies = previousPurchaseHistory.flatMap(entry => entry.movies || []);
 
             if (purchasedMovies.includes(movie.id)) {
-                alert(`You have already purchased ${movie.original_title}`);
+                alert(`You have already purchased this movie: ${movie.original_title}`);
                 return;
             }
         }
 
+        const localPurchasedMovies = JSON.parse(localStorage.getItem('purchasedMovies')) || [];
+        if (localPurchasedMovies.includes(movie.id)) {
+            alert(`You have already purchased this movie: ${movie.original_title}`);
+            return;
+        }
 
-        setCart((prevCart) =>
-            prevCart.set(movie.id, {
+        // Update the cart
+        setCart((prevCart) => {
+            const newCart = new Map(prevCart).set(movie.id, {
                 title: movie.original_title,
                 url: movie.poster_path,
-            })
-        );
+            });
+
+            // Save cart to localStorage
+            localStorage.setItem("cart", JSON.stringify(Array.from(newCart.entries())));
+
+            // Update purchasedMovies in localStorage
+            localPurchasedMovies.push(movie.id);
+            localStorage.setItem('purchasedMovies', JSON.stringify(localPurchasedMovies));
+
+            // Update Firestore with the new purchase
+            if (user) {
+                const userDocRef = doc(firestore, 'users', user.uid);
+                updateDoc(userDocRef, {
+                    previousPurchaseHistory: arrayUnion({ movies: [movie.id], date: new Date() })
+                });
+            }
+
+            return newCart;
+        });
     }
 
     function loadMovie(id) {
