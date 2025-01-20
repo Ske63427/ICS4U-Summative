@@ -4,13 +4,13 @@ import TwoBySixGenreTable from "../components/TwoBySixGenreTable.jsx";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStoreContext } from "../Context";
-import {getAuth, signOut} from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, firestore } from "../firebase";
-import { get } from 'immutable';
-import { use } from 'react';
 
 function SettingsView() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [chosenGenres, setChosenGenres] = useState([]);
     const navigate = useNavigate();
     const { user, setUser, setSelected } = useStoreContext();
@@ -26,7 +26,6 @@ function SettingsView() {
 
     const handleGenreSelection = (selectedGenres) => {
         setChosenGenres(selectedGenres);
-        // console.log("Selected genres:", selectedGenres);
     };
 
     useEffect(() => {
@@ -35,6 +34,8 @@ function SettingsView() {
                 const userDoc = await getDoc(doc(firestore, 'users', user.uid));
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
+                    setFirstName(userData.firstName || '');
+                    setLastName(userData.lastName || '');
                     setChosenGenres(userData.genreList || []);
                     setSelected(userData.genreList || []); // Initialize context state
                 }
@@ -43,7 +44,17 @@ function SettingsView() {
         fetchPreferredGenres();
     }, [user, setSelected]);
 
-    console.log(user)
+    const handleSave = async () => {
+        if (user) {
+            const userDocRef = doc(firestore, 'users', user.uid);
+            await updateDoc(userDocRef, {
+                firstName,
+                lastName,
+                genreList: chosenGenres
+            });
+            alert("Changes saved!");
+        }
+    };
 
     return (
         <div>
@@ -51,44 +62,62 @@ function SettingsView() {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
-                        <div className="row" style={{margin: "0px 0px 16px"}}>
+                        <div className="row" style={{ margin: "0px 0px 16px" }}>
                             <div className="col">
-                                <p style={{fontSize: "16px"}}>{user.email}</p>
+                                <p style={{ fontSize: "16px" }}>{user.email}</p>
                             </div>
                         </div>
-                        <div className="row" style={{margin: "0px 0px 16px"}}>
+                        <div className="row" style={{ margin: "0px 0px 16px" }}>
                             <div className="col">
-                                <input type="text" style={{padding: "6px 12px", borderRadius: "5px"}} placeholder={"First Name"}/>
+                                <input
+                                    type="text"
+                                    style={{ padding: "6px 12px", borderRadius: "5px" }}
+                                    name={"firstName"}
+                                    placeholder={"First Name"}
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
                             </div>
                         </div>
-                        <div className="row" style={{margin: "0px 0px 16px"}}>
+                        <div className="row" style={{ margin: "0px 0px 16px" }}>
                             <div className="col">
-                                <input type="text" style={{padding: "6px 12px", borderRadius: "5px"}} placeholder={"Last Name"}/>
+                                <input
+                                    type="text"
+                                    style={{ padding: "6px 12px", borderRadius: "5px" }}
+                                    name={"lastName"}
+                                    placeholder={"Last Name"}
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
                             </div>
                         </div>
-                        <div className="row" style={{margin: "0px 0px 16px"}}>
+                        <div className="row" style={{ margin: "0px 0px 16px" }}>
                             <div className="col">
-                                <input type="password" style={{padding: "6px 12px", borderRadius: "5px"}} placeholder={"Password"}/>
+                                <input
+                                    type="password"
+                                    style={{ padding: "6px 12px", borderRadius: "5px" }}
+                                    placeholder={"Password"}
+                                />
                             </div>
                         </div>
-                        <div className="row" style={{margin: "0px 0px 16px"}}>
+                        <div className="row" style={{ margin: "0px 0px 16px" }}>
                             <div className="col">
-                                <input className="btn btn-primary" type="submit"/><br/><br/>
-                                <button className="btn btn-primary" onClick={() => logout()}>Log Out</button>
+                                <button className="btn btn-primary" onClick={handleSave}>Save Changes</button>
+                                <br/><br/>
+                                <button className="btn btn-primary" onClick={logout}>Log Out</button>
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-6" style={{marginTop: "20px"}}>
-                        <div className="table-responsive" style={{width: "500px", marginLeft: "0px", marginTop: "0px"}}>
-                            <TwoBySixGenreTable selectedGenres={handleGenreSelection}/>
+                    <div className="col-md-6" style={{ marginTop: "20px" }}>
+                        <div className="table-responsive" style={{ width: "500px", marginLeft: "0px", marginTop: "0px" }}>
+                            <TwoBySixGenreTable selectedGenres={handleGenreSelection} />
                         </div>
                     </div>
                 </div>
             </div>
             {/*<Footer/>*/}
         </div>
-
-    )
+    );
 }
 
 export default SettingsView;
