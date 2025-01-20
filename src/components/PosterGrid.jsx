@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom"
+import { useNavigate } from "react-router-dom" //, useParams
 import axios from "axios";
 import {useStoreContext} from "../context/index.jsx";
 
@@ -7,8 +7,8 @@ function PosterGrid({genre}) {
     const navigate = useNavigate();
     const [movies, setMovies] = useState([])
     const [movieData, setMovieData] = useState({});
-    const { cart, setCart } = useStoreContext();
-    const params = useParams();
+    const { setCart } = useStoreContext(); //cart,
+    // const params = useParams();
 
     useEffect(() => {
         (async function getMovies() {

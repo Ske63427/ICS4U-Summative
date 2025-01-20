@@ -20,6 +20,8 @@ function SettingsView() {
         navigate("/");
     }
 
+    console.log(user)
+
     return (
         <div>
             <Header/>
@@ -28,7 +30,7 @@ function SettingsView() {
                     <div className="col-md-6">
                         <div className="row" style={{margin: "0px 0px 16px"}}>
                             <div className="col">
-                                <p style={{fontSize: "16px"}}>Email(Immutable)</p>
+                                <p style={{fontSize: "16px"}}>{user.email}</p>
                             </div>
                         </div>
                         <div className="row" style={{margin: "0px 0px 16px"}}>

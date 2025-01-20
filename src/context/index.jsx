@@ -8,6 +8,8 @@ const StoreContext = createContext();
 export const StoreProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [cart, setCart] = useState(Map());
+    const [selected, setSelected] = useState([]);
+    const [currentUser, setCurrentUser] = useState({})
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -28,7 +30,7 @@ export const StoreProvider = ({ children }) => {
     }
 
     return (
-        <StoreContext.Provider value={{ user, setUser, cart, setCart }}>
+        <StoreContext.Provider value={{ user, setUser, cart, setCart, selected, setSelected, currentUser, setCurrentUser }}>
             {children}
         </StoreContext.Provider>
     );
